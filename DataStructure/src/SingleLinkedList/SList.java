@@ -8,6 +8,7 @@ package SingleLinkedList;
 public class SList {
     private SListNode head;
     private int size;
+    private SListNode head2;
 
     public SList() {
         head = null;
@@ -118,9 +119,39 @@ public class SList {
         }
     }
 
-    public void reverse() {
-
+    public void reverseList() {
+        if (size == 1) {
+            return;
+        }
+        reverseListSupport(null, head);
     }
+
+    /**
+     * Reverse list by update direction of node.next; not inserting
+     * @param oldHead   latter node after reverse
+     * @param newHead   prior node after reverse
+     */
+    private void reverseListSupport(SListNode oldHead, SListNode newHead) {
+        if (newHead == null) {
+            head = oldHead;
+            return;
+        }
+        SListNode temp = newHead.next;
+        newHead.next = oldHead;
+        reverseListSupport(newHead, temp);
+
+//        if (newHead == null) {
+//            this.head = oldHead;
+//            return;
+//        }
+//        SListNode tempNext = newHead.next;
+//        oldHead.next = null;
+//        newHead.next = oldHead;
+//        reverseListSupport(newHead, tempNext);
+    }
+
+
+
     /**
      * O(1)
      * @return list length
@@ -152,7 +183,5 @@ public class SList {
     private boolean checkIndex(int index) {
         return index <= size;
     }
-
-
 
 }
