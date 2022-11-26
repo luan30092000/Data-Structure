@@ -8,7 +8,6 @@ package SingleLinkedList;
 public class SList {
     private SListNode head;
     private int size;
-    private SListNode head2;
 
     public SList() {
         head = null;
@@ -21,7 +20,6 @@ public class SList {
      */
     public void pushFront(int item) {
         head = new SListNode(item, head);
-        size++;
         size++;
     }
 
