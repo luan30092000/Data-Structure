@@ -77,7 +77,7 @@ public class SList {
      * @param index removed node location
      * @return removed node
      */
-    public int popIndex(int index) {
+    public int pop(int index) {
         if (checkIndex(index)) {
             SListNode beforePopNode = head.nth(index - 1);
             SListNode result = beforePopNode.next;
