@@ -1,20 +1,21 @@
-package DoublyLinkedList;
+package CustomLinkedList;
 
 public class DList {
-    private Node head;
-    private Node tail;
+    private DNode head;
+    private DNode tail;
     int size;
+    final int NULL = 0;
 
     public DList() {
         head = null;
-        size = 0;
+        size = NULL;
     }
 
     public void pushFront(int item) {
         if (insertEmpty(item)){
             return;
         } else {
-            head = new Node(item, null, head);
+            head = new DNode(item, null, head);
         }
         size++;
     }
@@ -32,7 +33,7 @@ public class DList {
         if (head != null) {
             return false;
         } else {
-            head = new Node(item);
+            head = new DNode(item);
             tail = head;
             size++;
             return true;
@@ -40,11 +41,17 @@ public class DList {
     }
 
     public void push(int item, int index) {
-        Node beforeIndex = head.nth(index - 1);
+        if (insertEmpty(item)) {
+            return;
+        }
+        DNode beforeIndex = head.nth(index - 1);
         beforeIndex.insertAfter(item);
     }
 
     public int popFront() {
+        if (head == null) {
+            return NULL;
+        }
         int result = head.content;
         head = head.next;
         head.prev = null;
@@ -52,6 +59,9 @@ public class DList {
     }
 
     public int popBack() {
+        if (head == null) {
+            return NULL;
+        }
         int result = tail.content;
         tail = tail.prev;
         tail.next = null;
@@ -59,16 +69,19 @@ public class DList {
     }
 
     public int pop(int index) {
-        Node popNode = head.nth(index);
+        if (index > size) {
+            return NULL;
+        }
+        DNode popNode = head.nth(index);
         popNode.prev.next = popNode.next;
         popNode.next.prev = popNode.prev;
         return popNode.content;
     }
 
     public int popValue(int value) {
-        Node popNode = head.nodeValue(value);
+        DNode popNode = head.nodeValue(value);
         if (popNode == null) {
-            return 0;
+            return NULL;
         }
         popNode.prev.next = popNode.next;
         popNode.next.prev = popNode.prev;
@@ -80,7 +93,7 @@ public class DList {
     }
 
     public void reverseList() {
-        Node temp = head;
+        DNode temp = head;
         head = tail;
         tail = temp;
     }

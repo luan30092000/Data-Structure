@@ -2,86 +2,88 @@ package Array;
 
 public class CustomerArray {
     int[] arr;
-    int Capacity;
-    int Size;
+    int capacity;
+    int size;
 
     public CustomerArray(int capacity) {
         arr = new int[capacity];
-        this.Capacity = capacity;
-        Size = 0;
+        this.capacity = capacity;
+        size = 0;
     }
 
-    //Getter
+    public CustomerArray() {
+        this(10);
+    }
+
     public int getSize() {
-        return Size;
+        return size;
     }
 
-    //Getter
     public int getCapacity() {
-        return Capacity;
+        return capacity;
     }
 
-    //Getter
     public boolean isEmpty() {
-        return (Size == 0 || Capacity == 0);
+        return size == 0;
     }
 
     public int at(int index) {
-        if (index >= Size) {
+        if (index > size) {
             return 0;
         } else {
-            return arr[0 + index];
+            return arr[index - 1];
         }
     }
 
     public void pushBack(int val) {
         checkSize();
-        arr[Size] = val;
-        Size++;
+        arr[size] = val;
+        size++;
     }
 
     public void pushFront(int val) {
-        if (Size == 0) {
-            arr[Size] = val;
+        if (size == 0) {
+            arr[size] = val;
         } else {
             shiftRight(0);
             arr[0] = val;
         }
+        size++;
     }
 
     public void pushAt(int index, int val) {
         checkSize();
         shiftRight(index);
         arr[index] = val;
-        Size++;
+        size++;
     }
 
     public int popFront() {
         int result = arr[0];
         arr[0] = 0;
         shiftLeft(0);
-        Size--;
+        size--;
         return result;
     }
 
     public int popBack() {
-        int result = arr[Size - 1];
-        arr[Size - 1] = 0;
-        Size--;
+        int result = arr[size - 1];
+        arr[size - 1] = 0;
+        size--;
         return result;
     }
 
     public void fillIndex(boolean half) {
         if (half) {
-            for (int i = 0; i < Capacity / 2; i++) {
+            for (int i = 0; i < capacity / 2; i++) {
                 arr[i] = i + 1;
-                Size++;
+                size++;
             }
         }
         else {
-            for (int i = 0; i < Capacity; i++) {
+            for (int i = 0; i < capacity; i++) {
                 arr[i] = i + 1;
-                Size++;
+                size++;
             }
         }
     }
@@ -91,11 +93,11 @@ public class CustomerArray {
      * @param index location where it will be available
      */
     private void shiftRight(int index) {
-        if (index < 0) {
+        if (index > size) {
             return;
         }
         checkSize();
-        for (int i = Size - 1; i >= index; i--) {
+        for (int i = size - 1; i >= index; i--) {
             arr[i + 1] = arr[i];
         }
     }
@@ -105,39 +107,32 @@ public class CustomerArray {
             return;
         }
         checkSize();
-        for (int i = index; i < Size; i++) {
+        for (int i = index; i < size; i++) {
             arr[i] = arr[i + 1];
         }
     }
 
     private void checkSize()  {
-        if (Size == Capacity) {
-            reSize();
+        if (size >= capacity) {
+            capacity = capacity * 2;
+            int[] newArr = new int[capacity];
+            for (int i = 0; i < size; i++) {
+                newArr[i] = arr[i];
+            }
+            arr = newArr;
         }
-    }
-
-    /**
-     * Method resize array capacity with a specific length
-     */
-    private void reSize() {
-        Capacity = Capacity * 2;
-        int[] newArr = new int[Capacity];
-        for (int i = 0; i < Size; i++) {
-            newArr[i] = arr[i];
-        }
-        arr = newArr;
     }
 
     public void printAll() {
         System.out.print("[");
-        for (int i = 0; i < Capacity; i++) {
+        for (int i = 0; i < capacity; i++) {
             System.out.print(arr[i]);
             System.out.print(", ");
 
         }
         System.out.println("]");
-        System.out.println("Size: " + Size);
-        System.out.println("Capacity: " + Capacity);
+        System.out.println("Size: " + size);
+        System.out.println("Capacity: " + capacity);
     }
 
 

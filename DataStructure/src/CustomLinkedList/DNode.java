@@ -1,33 +1,33 @@
-package DoublyLinkedList;
+package CustomLinkedList;
 
-public class Node {
+public class DNode {
     int content;
-    Node next;
-    Node prev;
+    DNode next;
+    DNode prev;
 
-    Node(int content, Node prev, Node next) {
+    DNode(int content, DNode prev, DNode next) {
         this.content = content;
         this.next = next;
         this.prev = prev;
     }
 
-    Node() {
+    DNode() {
         this(0, null, null);
     }
 
-    Node(int item) {
+    DNode(int item) {
         this(item, null, null);
     }
 
     void insertBack(int item) {
         if (next == null) {
-            next = new Node(item, this, null);
+            next = new DNode(item, this, null);
         } else {
             this.next.insertBack(item);
         }
     }
 
-    Node nth(int index) {
+    DNode nth(int index) {
         if (index == 1) {
             return this;
         } else {
@@ -36,13 +36,13 @@ public class Node {
     }
 
     void insertAfter(int item) {
-        this.next = new Node(item, this, this.next);
+        this.next = new DNode(item, this, this.next);
     }
 
-    Node nodeValue(int value) {
+    DNode nodeValue(int value) {
         if (this.content == value) {
             return this;
-        } else if (next == null) {
+        } else if (this.next == null) {
             return null;
         } else {
             return this.next.nodeValue(value);
