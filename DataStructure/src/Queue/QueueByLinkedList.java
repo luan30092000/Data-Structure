@@ -2,11 +2,11 @@ package Queue;
 
 import CustomLinkedList.SList;
 
-public class QueueLinkedList implements Queue{
+public class QueueByLinkedList implements Queue{
 
     SList queue;
 
-    public QueueLinkedList() {
+    public QueueByLinkedList() {
         queue = new SList();
     }
 
@@ -20,5 +20,7 @@ public class QueueLinkedList implements Queue{
         return queue.pop_front();
     }
 
-
+    public boolean empty() {
+        return queue.isEmpty();
+    }
 }

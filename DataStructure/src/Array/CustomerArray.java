@@ -27,45 +27,78 @@ public class CustomerArray {
         return size == 0;
     }
 
-    public int at(int index) {
+    public int nth(int index) {
         if (index > size) {
-            return 0;
+            return arr[size - 1];
         } else {
             return arr[index - 1];
         }
     }
 
     public void pushBack(int val) {
-        checkSize();
         arr[size] = val;
         size++;
     }
 
-    public void pushFront(int val) {
-        if (size == 0) {
-            arr[size] = val;
+    public void pushFront(int item) {
+        if (insertEmpty(item)) {
+            return;
         } else {
+            if (size == capacity) {
+                extendSize();
+            }
             shiftRight(0);
-            arr[0] = val;
+            arr[0] = item;
         }
         size++;
     }
 
-    public void pushAt(int index, int val) {
-        checkSize();
-        shiftRight(index);
-        arr[index] = val;
-        size++;
+    private boolean insertEmpty(int item) {
+        if (size == 0) {
+            arr[size] = item;
+            size++;
+            return true;
+        } else {
+            return false;
+        }
     }
 
+    /**
+     * Push into a specific index, if index > size, push back
+     * @param index location
+     * @param val content
+     */
+    public void pushAt(int index, int val) {
+        if (size == capacity) {
+            extendSize();
+        }
+        if (index > size) {
+            this.pushBack(val);
+        } else {
+            shiftRight(index - 1);
+            arr[index - 1] = val;
+            size++;
+        }
+    }
+
+    /**
+     * Pop front value of the array and return value
+     * O(1)
+     * @return front value of array
+     */
     public int popFront() {
         int result = arr[0];
         arr[0] = 0;
-        shiftLeft(0);
+        shiftLeft(1);
         size--;
         return result;
     }
 
+    /**
+     * Pop value at last index and return value
+     * O(1)
+     * @return content at last index
+     */
     public int popBack() {
         int result = arr[size - 1];
         arr[size - 1] = 0;
@@ -73,66 +106,49 @@ public class CustomerArray {
         return result;
     }
 
-    public void fillIndex(boolean half) {
-        if (half) {
-            for (int i = 0; i < capacity / 2; i++) {
-                arr[i] = i + 1;
-                size++;
-            }
-        }
-        else {
-            for (int i = 0; i < capacity; i++) {
-                arr[i] = i + 1;
-                size++;
-            }
+    /**
+     * shifting all element down so index will be available, use for insertion
+     * O(n)
+     * @param index location where it will be available
+     */
+    private void shiftRight(int index) {
+        for (int i = size; i > index; i--) {
+            arr[i] = arr[i - 1];
         }
     }
 
     /**
-     * shifting all element down so index will be available
-     * @param index location where it will be available
+     * Shift array to the left to fill the index, use for pop/deletion
+     * O(n)
+     * @param index index content will be deleted
      */
-    private void shiftRight(int index) {
-        if (index > size) {
-            return;
-        }
-        checkSize();
-        for (int i = size - 1; i >= index; i--) {
-            arr[i + 1] = arr[i];
-        }
-    }
-
     private void shiftLeft(int index) {
-        if (index < 0) {
-            return;
-        }
-        checkSize();
         for (int i = index; i < size; i++) {
-            arr[i] = arr[i + 1];
+            arr[i - 1] = arr[i];
         }
+        arr[size - 1] = 0;   // After shift to left, remove last node value because node has been shifted to the left
+
     }
 
-    private void checkSize()  {
-        if (size >= capacity) {
-            capacity = capacity * 2;
-            int[] newArr = new int[capacity];
-            for (int i = 0; i < size; i++) {
-                newArr[i] = arr[i];
-            }
-            arr = newArr;
-        }
-    }
-
-    public void printAll() {
-        System.out.print("[");
+    /**
+     * Extends size of the array to double
+     * O(n)
+     */
+    private void extendSize() {
+        int[] newArr = new int[capacity * 2];
         for (int i = 0; i < capacity; i++) {
-            System.out.print(arr[i]);
-            System.out.print(", ");
-
+            newArr[i] = arr[i];
         }
-        System.out.println("]");
-        System.out.println("Size: " + size);
-        System.out.println("Capacity: " + capacity);
+        capacity *= 2;
+        arr = newArr;
+    }
+
+    /**
+     * If array have reached its capacity, use to implement circular buffer queue FIFO
+     * @return true if reached, false otherwise
+     */
+    public boolean maxCapacity() {
+        return size == capacity;
     }
 
 
