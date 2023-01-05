@@ -10,6 +10,10 @@ public class QueueByLinkedList implements Queue{
         queue = new SList();
     }
 
+    /**
+     *
+     * @param content
+     */
     @Override
     public void enQueue(int content) {
         queue.push_back(content);

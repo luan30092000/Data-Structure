@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class CircularBufferTest {
 
     CircularBuffer buff;
-    int[] assertValue = new int[]{3, 4, 5, 6, 7};
     @BeforeEach
     void initiate() {
         buff = new CircularBuffer(5);
@@ -19,6 +18,7 @@ class CircularBufferTest {
 
     @Test
     void enQueue() {
+        int[] assertValue = new int[]{3, 4, 5, 6, 7};
         for (int i = 0; i < 5; i++) {
             assertEquals(assertValue[i], buff.deQueue());
         }
